@@ -2,21 +2,61 @@
 
 {% block body %}
 <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+<link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script> <!-- 16 KB -->
+
 
 <div class="kefala-content">
-    <h1>TP 5</h1>    
+    <h1>TP 5</h1>   
+    <p>Escriba una página web que, para las cuatro instrucciones indicadas más abajo, muestre, a medida que el visitante vaya haciendo clic en botones o enlaces, cómo transcurren en el interior de una PC las distintas fases del ciclo de instrucción1. La transición de las imágenes deberá realizarse con AJAX, para actualizar sólo la parte de la página donde esté la imagen.</p>
+    <div class="fotorama" data-auto="false" style="margin:auto;">
+    </div>
+
+
 </div>
+
+<style>
+    .fotorama__wrap {
+        margin: auto;
+    }
+    .fotorama__caption__wrap {
+        width: 100%;
+    text-align: center;
+    color: #fff;
+        background: #555;
+    }
+    
+
+</style>
 
 <script>
     $(document).ready(function () {
         $.ajax({
             url: "/images/api/images/getAll",
-      }).done(function(data) {
-          console.log("FAcha", data);
+        }).done(function(data) {
+            console.log("FAcha", data);
+            var imagen = document.createElement("img");
+            for (var i = data.images.length - 1; i >= 0; i--) {
+                imagen = document.createElement("img");
+                $(imagen).attr("src", 'img/' + data.images[i].url);
+                if (i == 0 || i == 1) {}
+                    $(imagen).attr("data-caption", '1588:0200 A10050  MOV    AX, [5000]');
+                if (i == 2 || i == 3) {}
+                    $(imagen).attr("data-caption", '1588:0203 03060050  ADD   AX, [5000]');
+                if (i == 4 || i == 5) {}
+                    $(imagen).attr("data-caption", '1588:0207 2B060650  SUB   AX, [5000]');
+                if (i == 5 || i == 7) {}
+                    $(imagen).attr("data-caption", '1588:020B A31050   MOV   [5010], AX');
 
-      });
-  });
+                $(".fotorama").append(imagen);
+                console.log(data.images[i]);
+            }
+            
+            $('.fotorama').fotorama();
 
+        }); 
+    });
 </script>
+
 
 {% endblock %}

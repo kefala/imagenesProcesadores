@@ -108,7 +108,7 @@ class ImageController extends Controller
     /**
      * Finds and displays a Image entity.
      *
-     * @Route("/api/images/getAll", name="create_image")
+     * @Route("/api/images/getAll", name="getAll")
      * @Method("GET")
      */
     public function getAllApi()
