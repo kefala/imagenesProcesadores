@@ -105,4 +105,33 @@ class ImageController extends Controller
         return $response;
     }
 
+    /**
+     * Finds and displays a Image entity.
+     *
+     * @Route("/api/images/getAll", name="create_image")
+     * @Method("GET")
+     */
+    public function getAllApi()
+    {
+        $response = new JsonResponse();
+        $em = $this->getDoctrine()->getManager();
+
+        $images = $em->getRepository('AppBundle:Image')->findAll();
+
+        $dao = [];
+
+        foreach ($images as $key => $value) {
+            $dao[$key] = array(
+                'nombre' => $value->getName(), 
+                'url' => $value->getUrl(), 
+            );
+        }
+
+        $response->setData(array(
+            'images' => $dao
+        )); 
+        
+        return $response;
+    }
+
 }
